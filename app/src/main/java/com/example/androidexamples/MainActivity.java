@@ -14,10 +14,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.androidexamples.database.DaoMaster;
 import com.example.androidexamples.database.DaoSession;
 import com.example.androidexamples.database.Note;
 import com.example.androidexamples.database.NoteDao;
 
+import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.query.Query;
 
 import java.text.DateFormat;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private NoteDao noteDao;
     private Query<Note> notesQuery;
     private NotesAdapter notesAdapter;
+    private DaoSession daoSession;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,16 @@ public class MainActivity extends AppCompatActivity {
 
         // get the note DAO
         try{
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
+            // regular SQLite database
+            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "notes-db");
+            Database db = helper.getWritableDb();
+
+            // encrypted SQLCipher database
+            // note: you need to add SQLCipher to your dependencies, check the build.gradle file
+            // DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "notes-db-encrypted");
+            // Database db = helper.getEncryptedWritableDb("encryption-key");
+
+            daoSession = new DaoMaster(db).newSession();
             noteDao = daoSession.getNoteDao();
 
         }catch (Exception e){
