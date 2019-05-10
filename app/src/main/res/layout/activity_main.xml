@@ -6,14 +6,101 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <EditText
+        android:id="@+id/etID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PhoneBook"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="54dp"
+        android:layout_marginEnd="82dp"
+        android:layout_marginRight="82dp"
+        android:ems="10"
+        android:hint="id"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnSearch"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:ems="10"
+        android:hint="name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/etID"
+        app:layout_constraintTop_toBottomOf="@+id/etID" />
+
+    <EditText
+        android:id="@+id/etNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:ems="10"
+        android:hint="number"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/etName"
+        app:layout_constraintTop_toBottomOf="@+id/etName" />
+
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="جستجو"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etID" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginRight="9dp"
+        android:text="ثبت"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnEdit"
+        app:layout_constraintTop_toBottomOf="@+id/etNumber" />
+
+    <Button
+        android:id="@+id/btnEdit"
+        android:layout_width="88dp"
+        android:layout_height="43dp"
+        android:text="ویرایش"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnSave"
+        app:layout_constraintEnd_toStartOf="@+id/btnSave"
+        app:layout_constraintStart_toEndOf="@+id/btnDelete" />
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:text="حذف"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnEdit"
+        app:layout_constraintEnd_toStartOf="@+id/btnEdit"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnShowAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="148dp"
+        android:layout_marginRight="148dp"
+        android:text="نمایش همه"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSave" />
 
 </android.support.constraint.ConstraintLayout>
