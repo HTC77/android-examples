@@ -18,7 +18,7 @@ import java.io.OutputStream;
 import static android.content.ContentValues.TAG;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private static String DB_NAME = "store.db";
+    private static String DB_NAME = "sample2.db";
     private static String DB_PATH;
     private final Context mContext;
     private SQLiteDatabase mDatabase;
