@@ -1,5 +1,6 @@
 package com.example.androidexamples;
 
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,17 +10,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnSave, btnRetrieve;
+    private Button btnSave, btnLoad;
     private EditText etText;
-    private TextView tvText;
-    private CheckBox chkAppend;
-    private int writeMode;
+    private static final int READ_BLOCK_SIZE=100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,48 +31,65 @@ public class MainActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writeMode = chkAppend.isChecked() ? MODE_APPEND : MODE_PRIVATE;
-                writeFile("a.txt");
+                String str=etText.getText().toString();
+                try{
+                    //--SD Card Storage--
+                    File sdCard= Environment.getExternalStorageDirectory();
+                    File directory = new File(sdCard.getAbsolutePath()+"/MyFiles");
+                    directory.mkdirs();
+                    File file =new File(directory,"textFile.txt");
+                    FileOutputStream fOut=new FileOutputStream(file);
+                    //--SD Card
+
+                    //     FileOutputStream fOut=openFileOutput("textFile.txt",MODE_WORLD_READABLE); //Internal
+                    OutputStreamWriter osw=new OutputStreamWriter(fOut);
+                    //--Write the String to the file--
+                    osw.write(str);osw.flush();osw.close();
+                    //--display file saved message--
+                    Toast.makeText(getBaseContext(),"file saved successfully",Toast.LENGTH_SHORT).show();
+                    //--Clears the EditText--
+                    etText.setText("");
+                }catch (IOException ioe){
+                    Toast.makeText(MainActivity.this, "ERR: "+ ioe.getMessage(), Toast.LENGTH_LONG).show();
+                    ioe.printStackTrace();
+                }
             }
         });
-        btnRetrieve.setOnClickListener(new View.OnClickListener() {
+        btnLoad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                readFile("a.txt");
+                try {
+                    //--SD Card Storage--
+                    File sdCard= Environment.getExternalStorageDirectory();
+                    File directory = new File(sdCard.getAbsolutePath()+"/MyFiles");
+                    directory.mkdirs();
+                    File file =new File(directory,"textFile.txt");
+                    FileInputStream fln=new FileInputStream(file);
+                    InputStreamReader isr=new InputStreamReader(fln);
+                    char[] inputBuffer=new char[READ_BLOCK_SIZE];
+                    String s="";
+                    int charRead;
+                    while ((charRead=isr.read(inputBuffer))>0){
+                        //--Convert the chars to String--
+                        String readString = String.copyValueOf(inputBuffer,0,charRead);
+                        s+=readString;
+                        inputBuffer=new char[READ_BLOCK_SIZE];
+                    }
+                    //--set The EditText to the text has been
+                    //read--
+                    etText.setText(s);
+                    Toast.makeText(getBaseContext(),"File loded successfully",Toast.LENGTH_SHORT).show();
+                } catch (IOException ioe) {
+                    Toast.makeText(MainActivity.this, "ERR: "+ ioe.getMessage(), Toast.LENGTH_LONG).show();
+                    ioe.printStackTrace();
+                }
             }
         });
-        readFile("a.txt");
     }
 
     private void findViews() {
         btnSave = findViewById(R.id.btnSave);
-        btnRetrieve = findViewById(R.id.btnRetreive);
-        etText = findViewById(R.id.etText);
-        tvText = findViewById(R.id.tvFileContents);
-        chkAppend = findViewById(R.id.chbAppend);
-    }
-
-    private void writeFile(String name){
-        try {
-            FileOutputStream outputStream = openFileOutput(name,writeMode);
-            outputStream.write((etText.getText().toString()+'\n').getBytes());
-            outputStream.flush();
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "خطا در نوشتن در فایل", Toast.LENGTH_SHORT).show();
-        }
-    }
-    private void readFile(String name){
-        try {
-            FileInputStream inputStream = openFileInput(name);
-            byte[] buffer = new byte[inputStream.available()];
-            inputStream.read(buffer);
-            inputStream.close();
-            tvText.setText(new String(buffer));
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "خطا در خواندن فایل", Toast.LENGTH_SHORT).show();
-        }
+        btnLoad = findViewById(R.id.btnLoad);
+        etText = findViewById(R.id.et1);
     }
 }
