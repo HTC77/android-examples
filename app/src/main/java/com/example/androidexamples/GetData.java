@@ -7,6 +7,7 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -22,7 +23,8 @@ public class GetData extends AsyncTask<String,Void,String> {
     protected String doInBackground(String... strings) {
         try {
             URL mUrl = new URL(this.url);
-            URLConnection uc =  mUrl.openConnection();
+            HttpURLConnection uc =  (HttpURLConnection) mUrl.openConnection();
+            uc.setRequestMethod("GET");
             BufferedReader reader = new BufferedReader(new InputStreamReader(uc.getInputStream()));
             StringBuilder value = new StringBuilder();
             String line =null;
