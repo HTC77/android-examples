@@ -2,6 +2,7 @@ package com.example.androidexamples;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -95,5 +96,9 @@ public class MainActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             }
         }).start();
+    }
+
+    public void onBtnTimeViewClick(View v){
+        startActivity(new Intent(this,CustomComponentActivity.class));
     }
 }
