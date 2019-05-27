@@ -7,18 +7,22 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    CharSequence items[] = {"Google", "Apple", "Microsoft"};
-    boolean[] itemChecked = new boolean[items.length];
-    ProgressDialog progressDialog;
-
+    private CharSequence items[] = {"Google", "Apple", "Microsoft"};
+    private   boolean[] itemChecked = new boolean[items.length];
+    private ProgressDialog progressDialog;
+    private boolean isServiceStarted;
+    private Button btnService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         itemChecked[1] = true;
+        isServiceStarted = false;
+        btnService = findViewById(R.id.btnService);
     }
 
     public void onBtnDialogClick(View v) {
@@ -100,5 +104,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void onBtnTimeViewClick(View v){
         startActivity(new Intent(this,CustomComponentActivity.class));
+    }
+    public void onBtnServiceClick(View v){
+        Intent intent = new Intent(this,MyService.class);
+        if(!isServiceStarted){
+          startService(intent);
+          btnService.setText("Stop Service");
+        }
+        else{
+          stopService(intent);
+          btnService.setText("Start Service");
+        }
+        isServiceStarted = !isServiceStarted;
     }
 }
