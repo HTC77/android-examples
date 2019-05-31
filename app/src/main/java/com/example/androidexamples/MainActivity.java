@@ -1,18 +1,16 @@
 package com.example.androidexamples;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationCompat.Builder;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AlertDialog;
@@ -20,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,7 +38,20 @@ public class MainActivity extends AppCompatActivity {
         itemChecked[1] = true;
         isServiceStarted = false;
         btnService = findViewById(R.id.btnService);
-        createNotificationChannel(); // for API >= 26
+        createNotificationChannel(); // for API 26+
+
+        // check for extras
+        Bundle extras = getIntent().getExtras();
+        if(extras==null)return;
+
+        String value1 = extras.getString("Number1");
+        String value2 = extras.getString("Number2");
+        final int i = Integer.parseInt(value1);
+        final int j = Integer.parseInt(value2);
+        Intent intent = new Intent();
+        intent.putExtra("Result", i + j);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     public void onBtnDialogClick(View v) {
@@ -153,6 +163,26 @@ public class MainActivity extends AppCompatActivity {
     }
     public void onBtnBuiltinActivityClick(View v){
         startActivity(new Intent(this,IntentsActivity.class));
+    }
+    public void onBtnSecondActivityClick(View v){
+        Intent i = new Intent();
+        i.setAction("android.intent.action.ALL_APPS");
+        startActivity(i);
+    }
+    public void onBtnResultActivityClick(View v){
+        startActivityForResult(new Intent(this,ResultActivity.class),1);
+    }
+    public void onBtnFragmentClick(View v){
+        startActivity(new Intent(this,FragmentActivity.class));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode==1){
+            if(resultCode==RESULT_OK){
+                Toast.makeText(this,data.getData().toString(),Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void displayNotification() {
