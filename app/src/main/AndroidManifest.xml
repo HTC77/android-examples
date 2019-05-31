@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DragDropActivity"></activity>
+        <activity android:name=".NotificationViewActivity"></activity>
+        <activity android:name=".DragDropActivity" />
 
         <receiver
             android:name=".MyReceiver"
