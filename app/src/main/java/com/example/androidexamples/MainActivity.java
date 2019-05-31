@@ -117,4 +117,11 @@ public class MainActivity extends AppCompatActivity {
         }
         isServiceStarted = !isServiceStarted;
     }
+    public void onBtnBroadcastClick(View v){
+        Intent intent = new Intent(this,MyReceiver.class);
+        sendBroadcast(intent);
+    }
+    public void onBtnDragDropClick(View v){
+        startActivity(new Intent(this,DragDropActivity.class));
+    }
 }
