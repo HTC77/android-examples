@@ -151,6 +151,9 @@ public class MainActivity extends AppCompatActivity {
     public void onBtnActionNotificationClick(View v){
         displayNotification3();
     }
+    public void onBtnBuiltinActivityClick(View v){
+        startActivity(new Intent(this,IntentsActivity.class));
+    }
 
     private void displayNotification() {
         // Create an explicit intent for an Activity in your app
